@@ -1,17 +1,19 @@
 #!/usr/bin/env bash
-# This script review subdomains
-array=("www" "lb-01" "web-01" "web-02")
+# Usage: ./1-world_wide_web <domain> <subdomain>
+# Display information about subdomains.
 
-print_text(){
-  dig "$1"."$2"|awk -v sbd="$1" '/ANSWER SECTION:/{getline; print "The subdomain " sbd " is a " $4 " record and points to " $5}'
+domain_information () {
+    line=$(dig "$2"."$1" | grep -A1 'ANSWER SECTION:' | tr '\t' '\n' | tail -2 | tr '\n' ' ')
+    echo "$2 $line" | awk '{print "The subdomain " $1 " is a " $2 " record and points to " $3}'
 }
 
-if [ $# -eq 2 ]
+if [ "$#" == 1 ]
 then
-  print_text "$2" "$1"
-else
-  for i in "${array[@]}"
-  do
-    print_text "$i" "$1"
-  done
+  domain_information "$1" "www"
+  domain_information "$1" "lb-01"
+  domain_information "$1" "web-01"
+  domain_information "$1" "web-02"
+elif [ "$#" == 2 ]
+then
+  domain_information "$1" "$2"
 fi
