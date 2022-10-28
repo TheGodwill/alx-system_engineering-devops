@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# This script fixes the nginx server
-sudo sed -i "s/8080/80/" /etc/nginx/sites-enabled/default
-sudo service nginx restart
-kill -9 "$(cat /var/run/nginx.pid)"
+# This script fixes the sites-enabled default reset service with pkill.
+sed -i 's/8080/80/g' /etc/nginx/sites-enabled/default
+pkill -1 -f '/usr/sbin/nginx'
