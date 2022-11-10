@@ -7,8 +7,8 @@ file_line { 'authentication password no' :
   line   => '    PasswordAuthentication no'
 }
 
-file_line { 'use private key holberton' :
+file_line { 'use private key school' :
   ensure => present,
   path   => $pth,
-  line   => '    IdentityFile ~/.ssh/holberton'
+  line   => '    IdentityFile ~/.ssh/school'
 }
